@@ -15,6 +15,7 @@ dist/
 dist-ssr/
 out/
 build/
+public/
 
 # Local env files
 *.local
