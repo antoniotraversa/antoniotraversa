@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Tomorrow:wght@400;500;600;700&display=swap');
+
+/* Importa le utility di Tailwind */
+@import "tailwindcss";
+
+/* Definizione delle variabili CSS per il tema.
+  :root definisce il tema chiaro (light mode) di default.
+  html.dark sovrascrive queste variabili per il tema scuro (dark mode).
+*/
+:root {
+  --color-primary: #1F376E;
+  --color-secondary: #4F5569;
+
+  /* background */
+  --color-bg: #EBEFFF; /* Sfondo chiaro */
+
+  /* text */
+  --color-text: #04060D; /* Testo scuro */
+  --color-text-muted: #4F5569; /* Testo secondario (uguale a secondary) */
+
+  /* font */
+  --font-sans: "Tomorrow", sans-serif;
+}
+
+html.dark {
+  --color-primary: #1F376E; /* Primario può restare uguale o cambiare */
+  --color-secondary: #4F5569; /* Secondario può restare uguale o cambiare */
+  
+  /* background */
+  --color-bg: #04060D; /* Sfondo scuro */
+
+  /* text */
+  --color-text: #EBEFFF; /* Testo chiaro */
+  --color-text-muted: #4F5569; /* Testo secondario (uguale a secondary) */
+}
+
+/* Applica il font base e un colore di sfondo di transizione */
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-bg);
+  transition: background-color 0.5s ease;
+}
