@@ -1,28 +1,39 @@
-// src/components/canvas/HeroRight3D.jsx
 import React, { useRef, useState, useEffect, Suspense } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Plane, Html } from "@react-three/drei";
 import { useNavigate } from "react-router-dom";
 import * as THREE from "three";
 
-const InteractivePanel = ({ to, label, color, ...props }) => {
+// Easing sincronizzato con Framer Motion easeOut
+const easeOut = (t) => 1 - Math.pow(1 - t, 3); 
+const TOTAL_DURATION = 1.5; // stessa durata dei testi
+
+const InteractivePanel = ({ to, label, color, initialOffset = 3, ...props }) => {
   const meshRef = useRef();
   const navigate = useNavigate();
   const [hovered, setHover] = useState(false);
+  const startTimeRef = useRef(null);
 
-  useFrame(() => {
+  useFrame((state) => {
     if (!meshRef.current) return;
-    const targetScale = hovered ? 0.95 : 0.85; // più piccoli
-    meshRef.current.scale.lerp(
-      new THREE.Vector3(targetScale, targetScale, targetScale),
-      0.08
-    );
+
+    if (startTimeRef.current === null) startTimeRef.current = state.clock.elapsedTime;
+    const elapsed = state.clock.elapsedTime - startTimeRef.current;
+    const progress = Math.min(elapsed / TOTAL_DURATION, 1);
+    const eased = easeOut(progress);
+
+    // posizionamento sincronizzato
+    meshRef.current.position.x = props.position[0] + initialOffset * (1 - eased);
+
+    // scala al passaggio del mouse
+    const targetScale = hovered ? 0.95 : 0.85;
+    meshRef.current.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), 0.08);
   });
 
   return (
     <Plane
       ref={meshRef}
-      args={[3, 1.5]} // pannelli più compatti
+      args={[3, 1.5]}
       onClick={() => navigate(to)}
       onPointerOver={(e) => {
         e.stopPropagation();
@@ -69,10 +80,7 @@ const DataFolderScene = ({ theme }) => {
   useFrame(({ clock, mouse }) => {
     if (!groupRef.current) return;
 
-    // Oscillazione verticale tipo respiro
     groupRef.current.position.y = Math.sin(clock.getElapsedTime() * 0.8) * 0.1;
-
-    // Parallasse morbida
     const targetRotationX = mouse.y * 0.2;
     const targetRotationY = mouse.x * 0.2;
     groupRef.current.rotation.x += (targetRotationX - groupRef.current.rotation.x) * 0.05;
@@ -87,6 +95,7 @@ const DataFolderScene = ({ theme }) => {
         color={theme.primary}
         position={[-1.5, 0, 0]}
         rotation={[0, 0.25, 0]}
+        initialOffset={3}
       />
       <InteractivePanel
         to="/about"
@@ -94,23 +103,22 @@ const DataFolderScene = ({ theme }) => {
         color={theme.secondary}
         position={[1.5, 0, 0]}
         rotation={[0, -0.25, 0]}
+        initialOffset={3}
       />
     </group>
   );
 };
 
 export default function HeroRight3DWrapper() {
-  const [theme, setTheme] = useState({
-    primary: "#1F376E",
-    secondary: "#4F5569",
-  });
+  const [theme, setTheme] = useState({ primary: "#1F376E", secondary: "#4F5569" });
 
   useEffect(() => {
     const getThemeColors = () => {
       const computed = getComputedStyle(document.documentElement);
-      const primaryColor = computed.getPropertyValue("--color-primary")?.trim() || "#1F376E";
-      const secondaryColor = computed.getPropertyValue("--color-secondary")?.trim() || "#4F5569";
-      setTheme({ primary: primaryColor, secondary: secondaryColor });
+      setTheme({
+        primary: computed.getPropertyValue("--color-primary")?.trim() || "#1F376E",
+        secondary: computed.getPropertyValue("--color-secondary")?.trim() || "#4F5569",
+      });
     };
     getThemeColors();
     const obs = new MutationObserver(getThemeColors);
