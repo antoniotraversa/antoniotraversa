@@ -3,7 +3,7 @@ import React, { Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
 import SignalPattern from '../animations/SignalPattern';
 
-const HeroCanvas = () => {
+const Background = () => {
   return (
     <Canvas
       camera={{ position: [0, 0, 8], fov: 60 }}
@@ -28,4 +28,4 @@ const HeroCanvas = () => {
   );
 };
 
-export default HeroCanvas;
+export default Background;

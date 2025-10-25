@@ -15,10 +15,8 @@ export const SignalPattern = () => {
   useEffect(() => {
     const getThemeColors = () => {
       const computed = getComputedStyle(document.documentElement);
-      const textColor =
-        computed.getPropertyValue("--color-text-muted")?.trim() || "#4F5569";
-      const primaryColor =
-        computed.getPropertyValue("--color-primary")?.trim() || "#1F376E";
+      const textColor = computed.getPropertyValue("--color-text-muted")?.trim() || "#4F5569";
+      const primaryColor = computed.getPropertyValue("--color-primary")?.trim() || "#1F376E";
       const isDark = document.documentElement.classList.contains("dark");
       const baseColor = isDark
         ? computed.getPropertyValue("--color-bg")?.trim() || "#04060D"
@@ -27,117 +25,100 @@ export const SignalPattern = () => {
     };
     getThemeColors();
     const obs = new MutationObserver(getThemeColors);
-    obs.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ["class"],
-    });
+    obs.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
     return () => obs.disconnect();
   }, []);
 
+  // === LINEE OCEANICHE ===
   const linesRef = useRef([]);
-  // AUMENTATO: Più linee per coprire più spazio
-  const numLines = 15;
-  const pointsPerLine = 200;
-
+  const numLines = 25;
+  const pointsPerLine = 250;
   const lines = useMemo(() => {
     const arr = [];
     for (let i = 0; i < numLines; i++) {
       const points = [];
       for (let j = 0; j < pointsPerLine; j++) {
-        points.push(new THREE.Vector3(j / 5 - 20, 0, 0));
+        points.push(new THREE.Vector3(j / 5 - 25, 0, (Math.random() - 0.5) * 2));
       }
       const geometry = new THREE.BufferGeometry().setFromPoints(points);
+      const color = new THREE.Color(theme.primaryColor).offsetHSL(0, 0, (i / numLines) * 0.3);
       const material = new THREE.LineBasicMaterial({
-        color: new THREE.Color(theme.textColor),
+        color,
         transparent: true,
-        opacity: 0.1 + (i / numLines) * 0.3,
+        opacity: 0.1 + (i / numLines) * 0.4,
       });
       arr.push({ geometry, material, index: i, id: `line-${i}` });
     }
     return arr;
-  }, [theme.textColor]);
+  }, [theme.primaryColor]);
 
-  // === Onde animate e pulsanti ===
   useFrame(({ clock }) => {
     const t = clock.getElapsedTime();
     for (const line of linesRef.current) {
       if (!line) continue;
-
       const i = line.userData.index;
       const pos = line.geometry.attributes.position;
       for (let j = 0; j < pos.count; j++) {
-        const x = j / 5 - 20;
+        const x = j / 5 - 25;
+        const z = pos.getZ(j) || 0;
         const y =
           Math.sin(x * 1.5 + t * 2 + i) * 0.4 +
-          Math.sin(x * 0.5 + t * 0.7) * 0.2;
-        // AUMENTATO: Maggiore spaziatura verticale
-        pos.setY(j, y + i * 0.5 - 4);
+          Math.sin(x * 0.3 + t * 0.7) * 0.2 +
+          Math.sin(i + t * 0.5) * 0.1;
+        pos.setY(j, y + i * 0.5 - 6);
+        pos.setZ(j, z + Math.sin(j * 0.1 + t * 0.3) * 0.05);
       }
       pos.needsUpdate = true;
-
-      const pulse = 0.5 + Math.sin(t * 1.5 + i * 0.5) * 0.5;
-      line.material.opacity = (0.2 + (i / numLines) * 0.3) * pulse;
+      const pulse = 0.4 + Math.sin(t * 1.2 + i * 0.3) * 0.6;
+      line.material.opacity = (0.2 + (i / numLines) * 0.4) * pulse;
     }
   });
 
-  // === Frammenti di codice dinamici (MIGLIORAMENTO CHIAVE) ===
+  // === FRAMMENTI DI CODICE ===
   const codeGroup = useRef();
-  
-  // Definisce i confini 3D in cui i frammenti possono muoversi
-  const bounds = useMemo(() => ({ x: 15, y: 10, z: 8 }), []);
-
+  const bounds = useMemo(() => ({ x: 18, y: 12, z: 10 }), []);
   const snippets = useMemo(() => {
     const texts = [
-      "C", "C++", "Java", "Dart", "JavaScript", "Flutter",
-      "React", "Python", "SQL", "Unreal", "git", "API",
-      "JSON", "async", "await", "Node.js", "Shader"
+      "C","C++","Java","Dart","JavaScript","Flutter","React","Python",
+      "SQL","Unreal","git","API","JSON","async","await","Node.js","Shader"
     ];
-    // AUMENTATO: Più frammenti
-    return Array.from({ length: 50 }, (_, i) => ({
+    return Array.from({ length: 60 }, (_, i) => ({
       id: `snippet-${i}`,
       text: texts[Math.floor(Math.random() * texts.length)],
-      // Posizione iniziale casuale all'interno dei confini
       pos: new THREE.Vector3(
-        (Math.random() - 0.5) * bounds.x * 1.8,
-        (Math.random() - 0.5) * bounds.y * 1.8,
-        (Math.random() - 0.5) * bounds.z * 1.8
+        (Math.random() - 0.5) * bounds.x * 2,
+        (Math.random() - 0.5) * bounds.y * 2,
+        (Math.random() - 0.5) * bounds.z * 2
       ),
-      // NUOVO: Vettore di velocità 3D casuale
       velocity: new THREE.Vector3(
         (Math.random() - 0.5) * 0.03,
         (Math.random() - 0.5) * 0.03,
         (Math.random() - 0.5) * 0.03
-      ).normalize().multiplyScalar(Math.random() * 0.02 + 0.01), // Velocità normalizzata
+      ).normalize().multiplyScalar(Math.random() * 0.02 + 0.01),
     }));
   }, [bounds]);
 
   useFrame(() => {
     if (!codeGroup.current) return;
-
     for (const [i, trailMesh] of codeGroup.current.children.entries()) {
       const mesh = trailMesh.children[0];
       const data = snippets[i];
-
       if (mesh) {
-        // NUOVO: Applica la velocità 3D
         mesh.position.add(data.velocity);
 
-        // NUOVO: Logica di "rimbalzo" sui muri invisibili (bounds)
-        // Questo crea il movimento "ramificato" e dinamico
-        if (Math.abs(mesh.position.x) > bounds.x) {
-          data.velocity.x *= -1;
-          mesh.position.x = Math.sign(mesh.position.x) * bounds.x;
-        }
-        if (Math.abs(mesh.position.y) > bounds.y) {
-          data.velocity.y *= -1;
-          mesh.position.y = Math.sign(mesh.position.y) * bounds.y;
-        }
-        if (Math.abs(mesh.position.z) > bounds.z) {
-          data.velocity.z *= -1;
-          mesh.position.z = Math.sign(mesh.position.z) * bounds.z;
-        }
+        // rimbalzo nei bounds
+        ["x","y","z"].forEach(ax => {
+          if (Math.abs(mesh.position[ax]) > bounds[ax]) {
+            data.velocity[ax] *= -1;
+            mesh.position[ax] = Math.sign(mesh.position[ax]) * bounds[ax];
+          }
+        });
+
+        // oscillazione verticale per effetto "onde"
+        mesh.position.y += Math.sin(mesh.position.x * 0.5 + Date.now() * 0.001) * 0.005;
       }
     }
+    codeGroup.current.rotation.y += 0.001; // rotazione lenta del gruppo
   });
 
   return (
@@ -151,15 +132,14 @@ export const SignalPattern = () => {
           userData={{ index: line.index }}
         />
       ))}
-
       <group ref={codeGroup}>
         {snippets.map((data) => (
           <Trail
             key={data.id}
-            width={0.6} // Larghezza scia
-            length={6} // Lunghezza scia
+            width={0.6}
+            length={7}
             color={theme.primaryColor}
-            attenuation={(t) => t * t} // Scia svanisce quadraticamente
+            attenuation={(t) => t * t * 0.8}
           >
             <Text
               position={data.pos}

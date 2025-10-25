@@ -1,77 +1,82 @@
-// src/components/sections/Hero.jsx
-import React from "react";
-
+import React, { useRef } from "react";
 import { Link } from "react-router-dom";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import HeroRight3DWrapper from "../canvas/HeroRight3D";
+
 
 const Hero = () => {
+  const containerRef = useRef(null);
+
+  // Motion values con smorzamento per movimento fluido
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+
+  const springX = useSpring(x, { stiffness: 50, damping: 15 });
+  const springY = useSpring(y, { stiffness: 50, damping: 15 });
+
+  const rotateX = useTransform(springY, [-200, 200], [8, -8]);
+  const rotateY = useTransform(springX, [-200, 200], [-8, 8]);
+
+  const handleMouseMove = (e) => {
+    const rect = containerRef.current.getBoundingClientRect();
+    x.set(e.clientX - rect.left - rect.width / 2);
+    y.set(e.clientY - rect.top - rect.height / 2);
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
+
   return (
-    <section className="relative w-full h-screen flex flex-col items-center justify-center text-center overflow-hidden">
-      {/* === Canvas globale trasparente === */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
-       
-      </div>
+    <section className="w-full h-screen flex overflow-hidden perspective-[1200px]">
+      {/* === Colonna sinistra: testo e pulsanti === */}
+      <div
+        ref={containerRef}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+        className="w-1/2 flex flex-col justify-center items-start px-12 z-10"
+      >
+        <motion.div
+          style={{
+            rotateX,
+            rotateY,
+            transformStyle: "preserve-3d",
+          }}
+          className="transform-gpu transition-transform duration-300 will-change-transform"
+          initial={{ rotateY: -10, rotateX: 4 }}
+          animate={{ rotateY: -10, rotateX: 4 }}
+        >
+          <motion.h1
+            className="text-7xl sm:text-8xl md:text-9xl lg:text-[10rem] font-extrabold tracking-tighter leading-none mb-8 drop-shadow-[0_5px_25px_rgba(0,0,0,0.4)]"
+            style={{
+              transform: "translateZ(-30px)",
+              textShadow:
+                "0 0 25px rgba(255,255,255,0.08), 0 0 50px var(--color-primary)",
+            }}
+          >
+            Antonio <span className="text-primary">Traversa</span>
+          </motion.h1>
 
-      {/* === Contenuto Hero === */}
-      {/* Aumentato max-w per contenere il testo più grande */}
-      <div className="relative z-10 max-w-4xl px-6">
+          <motion.p
+            className="text-lg md:text-xl text-[var(--color-text-muted)] mb-10 max-w-md"
+            style={{ transform: "translateZ(-10px)" }}
+          >
+            Esplora i miei progetti e scopri chi sono attraverso design e
+            tecnologia.
+          </motion.p>
+
         
-        {/* GRANDE, STILOSO, ELEGANTE */}
-        <h1 className="
-          text-7xl sm:text-8xl md:text-9xl lg:text-[10rem] /* 1. Grande */
-          font-extrabold /* 2. Stiloso (forte) */
-          tracking-tighter /* 2. Stiloso (compatto) */
-          leading-none 
-          mb-8 /* 3. Elegante (spaziatura) */
-        ">
-          Antonio <span className="text-primary">Traversa</span>
-        </h1>
-
-        {/* Sottotitolo bilanciato */}
-        <p className="
-          text-lg md:text-xl 
-          text-[var(--color-text-muted)] 
-          mb-10 
-          max-w-xl mx-auto
-        ">
-          Esplora i miei progetti e scopri chi sono attraverso design e
-          tecnologia.
-        </p>
-
-        {/* Pulsanti più eleganti e reattivi */}
-        <div className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-6">
-          <Link
-            to="/projects"
-            className="
-              px-8 py-3 /* 3. Elegante (padding) */
-              rounded-full 
-              bg-[var(--color-text)]/10 
-              text-[var(--color-text)] 
-              font-medium /* 3. Elegante (font weight) */
-              hover:bg-[var(--color-text)]/20 
-              transition-all duration-300 /* 3. Elegante (transizione) */
-            "
-          >
-            I miei progetti
-          </Link>
-
-          <Link
-            to="/about"
-            className="
-              px-8 py-3 
-              rounded-full 
-              bg-[var(--color-text)]/10 
-              text-[var(--color-text)] 
-              font-medium 
-              hover:bg-[var(--color-text)]/20 
-              transition-all duration-300
-            "
-          >
-            Chi sono
-          </Link>
-        </div>
+        </motion.div>
       </div>
+
+      {/* === Colonna destra: Globe === */}
+<div className="w-1/2 h-full relative">
+  <HeroRight3DWrapper />
+</div>
     </section>
   );
 };
 
 export default Hero;
+
