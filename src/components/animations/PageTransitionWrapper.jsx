@@ -1,46 +1,59 @@
 import { motion } from "framer-motion";
 
-// Definiamo le varianti dell'animazione
+/**
+ * Varianti cinematiche avanzate per le transizioni di pagina
+ * Combina opacità, scale, blur, glow e traslazione diagonale
+ */
 const pageVariants = {
-  // Stato iniziale (pagina sta per entrare)
   initial: {
     opacity: 0,
-    y: 20 // Inizia 20px più in basso
+    scale: 0.96,
+    y: 40,
+    x: -20,
+    filter: "blur(6px) drop-shadow(0 0 10px rgba(31,55,110,0.5))",
   },
-  // Stato animato (pagina è visibile)
   animate: {
     opacity: 1,
+    scale: 1,
     y: 0,
+    x: 0,
+    filter: "blur(0px) drop-shadow(0 0 20px rgba(31,55,110,0.8))",
     transition: {
-      duration: 0.5,
-      ease: "easeInOut" // Un'attenuazione fluida
-    }
+      duration: 0.7,
+      ease: [0.4, 0, 0.2, 1],
+    },
   },
-  // Stato di uscita (pagina sta per andarsene)
   exit: {
     opacity: 0,
-    y: -20, // Esce scivolando in alto
+    scale: 0.94,
+    y: -40,
+    x: 20,
+    filter: "blur(6px) drop-shadow(0 0 10px rgba(31,55,110,0.5))",
     transition: {
-      duration: 0.5,
-      ease: "easeInOut"
-    }
-  }
+      duration: 0.6,
+      ease: [0.4, 0, 0.2, 1],
+    },
+  },
 };
 
 /**
- * Questo componente avvolge ogni pagina per applicare un'animazione 
- * di transizione coerente (initial, animate, exit).
+ * PageTransitionWrapper cinematico
+ * Avvolge il contenuto della pagina con un effetto premium
  */
 const PageTransitionWrapper = ({ children }) => {
   return (
     <motion.div
-      // Applica le varianti definite sopra
       variants={pageVariants}
       initial="initial"
       animate="animate"
       exit="exit"
-      // Assicura che il div si comporti come un contenitore di pagina
-      style={{ position: 'relative', width: '100%' }} 
+      style={{
+        position: "relative",
+        width: "100%",
+        height: "100%",
+        overflow: "hidden",
+        willChange: "transform, opacity, filter",
+      }}
     >
       {children}
     </motion.div>

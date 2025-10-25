@@ -14,6 +14,7 @@ export default [
     description: "Media center in Flutter per gestire musica, video, IPTV e libri.",
     image: travyplayImg,
     tags: ["Dart", "Flutter", "IOS", "Android"],
+    repository: "https://github.com/antoniotraversa/TravyPlay",
   features: [
     {
       title: "Gestione Musica",

@@ -1,8 +1,83 @@
 // src/components/canvas/SignalPattern.jsx
 import React, { useRef, useMemo, useEffect, useState } from "react";
 import { useFrame } from "@react-three/fiber";
-import { Text, Trail } from "@react-three/drei";
+// Importa Icosahedron da drei
+import { Text, Trail, Icosahedron } from "@react-three/drei";
 import * as THREE from "three";
+
+// === NUOVO COMPONENTE: SFERA ENERGETICA ===
+/**
+ * Crea un nucleo energetico pulsante al centro della scena,
+ * composto da 3 wireframe che ruotano in modo indipendente.
+ */
+const EnergyCore = ({ color }) => {
+  const groupRef = useRef();
+  const sphere1Ref = useRef();
+  const sphere2Ref = useRef();
+  const sphere3Ref = useRef();
+
+  useFrame(({ clock }) => {
+    const t = clock.getElapsedTime();
+    if (!groupRef.current) return;
+
+    // Rotazioni differenziate per un effetto complesso
+    if (sphere1Ref.current) {
+      sphere1Ref.current.rotation.x = t * 0.2;
+      sphere1Ref.current.rotation.y = t * 0.3;
+    }
+    if (sphere2Ref.current) {
+      sphere2Ref.current.rotation.y = -t * 0.4;
+      sphere2Ref.current.rotation.z = t * 0.1;
+    }
+    if (sphere3Ref.current) {
+      sphere3Ref.current.rotation.z = t * 0.3;
+      sphere3Ref.current.rotation.x = -t * 0.1;
+    }
+
+    // Pulsazione di energia
+    const pulse = 0.95 + Math.sin(t * 2.5) * 0.05;
+    groupRef.current.scale.set(pulse, pulse, pulse);
+  });
+
+  return (
+    // Posizionato al centro (0,0,0)
+    <group ref={groupRef} position={[0, 0, 0]}>
+      {/* Luce interna che "emana" dalla sfera e illumina gli snippets vicini */}
+      <pointLight color={color} intensity={4} distance={10} decay={2} />
+
+      {/* Sfera 1 (principale) */}
+      <Icosahedron ref={sphere1Ref} args={[2.0, 4]}>
+        <meshBasicMaterial
+          color={color}
+          wireframe
+          transparent
+          opacity={0.3}
+        />
+      </Icosahedron>
+
+      {/* Sfera 2 (dettaglio interno) */}
+      <Icosahedron ref={sphere2Ref} args={[1.98, 4]}>
+        <meshBasicMaterial
+          color={color}
+          wireframe
+          transparent
+          opacity={0.15}
+        />
+      </Icosahedron>
+
+      {/* Sfera 3 (aura esterna) */}
+      <Icosahedron ref={sphere3Ref} args={[2.02, 4]}>
+        <meshBasicMaterial
+          color={color}
+          wireframe
+          transparent
+          opacity={0.1}
+        />
+      </Icosahedron>
+    </group>
+  );
+};
+// ==========================================
 
 export const SignalPattern = () => {
   const [theme, setTheme] = useState({
@@ -65,7 +140,7 @@ export const SignalPattern = () => {
           Math.sin(x * 1.5 + t * 2 + i) * 0.4 +
           Math.sin(x * 0.3 + t * 0.7) * 0.2 +
           Math.sin(i + t * 0.5) * 0.1;
-        pos.setY(j, y + i * 0.5 - 6);
+        pos.setY(j, y + i * 0.5 - 6); // Posiziona le linee oceaniche in basso
         pos.setZ(j, z + Math.sin(j * 0.1 + t * 0.3) * 0.05);
       }
       pos.needsUpdate = true;
@@ -123,6 +198,10 @@ export const SignalPattern = () => {
 
   return (
     <>
+      {/* === SFERA DI ENERGIA CENTRALE === */}
+      <EnergyCore color={theme.primaryColor} />
+
+      {/* === LINEE OCEANICHE ESISTENTI === */}
       {lines.map((line) => (
         <line
           key={line.id}
@@ -132,6 +211,8 @@ export const SignalPattern = () => {
           userData={{ index: line.index }}
         />
       ))}
+      
+      {/* === FRAMMENTI DI CODICE ESISTENTI === */}
       <group ref={codeGroup}>
         {snippets.map((data) => (
           <Trail
