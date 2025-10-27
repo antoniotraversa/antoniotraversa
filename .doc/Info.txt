@@ -1,0 +1,68 @@
+Ecco una struttura di cartelle avanzata per un portfolio professionale con React, Tailwind e Vite, pensata per includere elementi complessi come "mesh" (usando React Three Fiber) e animazioni (Framer Motion).
+
+La struttura separa chiaramente la logica, i dati, la UI, e gli elementi 3D/canvas.
+
+```
+/ (root)
+├── public/
+│   ├── models/           # File 3D statici (.gltf, .bin)
+│   ├── textures/         # Texture per i modelli 3D
+│   └── favicon.ico
+│
+├── src/
+│   ├── assets/
+│   │   ├── fonts/
+│   │   ├── icons/
+│   │   ├── images/
+│   │   └── videos/
+│   │
+│   ├── components/
+│   │   ├── common/         # Componenti riutilizzabili complessi (es. ProjectCard, SkillList)
+│   │   ├── layout/         # Header, Footer, PageContainer, Grid
+│   │   ├── sections/       # Sezioni principali della pagina (es. Hero, About, ProjectsGrid, ContactForm)
+│   │   ├── ui/             # Componenti UI atomici (es. Button, Input, Tag)
+│   │   └── canvas/         # ★ Per "mesh" e WebGL (React Three Fiber)
+│   │       ├── scenes/     # Componenti/Scene 3D principali (es. BackgroundMesh, ModelViewer)
+│   │       ├── models/     # Componenti JSX che caricano modelli 3D (es. LaptopModel.jsx)
+│   │       ├── shaders/    # Shader custom GLSL (es. vertex.glsl, fragment.glsl)
+│   │       └── effects/    # Effetti di post-processing (es. per react-postprocessing)
+│   │
+│   ├── data/
+│   │   ├── projects.js     # Dati statici per i progetti (oggetti o array JS)
+│   │   ├── skills.js       # Dati per le skill
+│   │   └── timeline.js     # Dati per esperienze lavorative
+│   │
+│   ├── hooks/
+│   │   ├── useScrollAnimation.js # Hook per animazioni allo scroll (es. con Framer Motion)
+│   │   ├── useStore.js         # Hook per lo state manager (es. Zustand)
+│   │   └── useMousePosition.js # Hook per effetti legati al mouse
+│   │
+│   ├── lib/
+│   │   ├── constants.js    # Costanti globali (es. email, link social)
+│   │   ├── utils.js        # Funzioni helper generiche (es. formattazione date)
+│   │   └── motion.js       # Configurazioni e varianti per animazioni (Framer Motion)
+│   │
+│   ├── pages/
+│   │   ├── Home.jsx
+│   │   ├── ProjectDetails.jsx
+│   │   └── 404.jsx           # Pagina Not Found
+│   │
+│   ├── store/
+│   │   └── index.js        # Configurazione state manager (es. Zustand, Jotai)
+│   │
+│   ├── styles/
+│   │   ├── fonts.css       # Importazione @font-face
+│   │   └── base.css        # Stili base e @layer di Tailwind
+│   │
+│   ├── App.jsx             # Gestione del routing principale (es. React Router)
+│   ├── main.jsx            # Entry point dell'app (React.createRoot)
+│   └── index.css           # File CSS principale (importa Tailwind e /styles/)
+│
+├── .eslintrc.cjs           # Configurazione Linter
+├── .gitignore
+├── index.html              # Entry point HTML (dove Vite inietta l'app)
+├── package.json
+├── postcss.config.js       # Configurazione per PostCSS (necessario per Tailwind)
+├── tailwind.config.js      # Configurazione di Tailwind
+└── vite.config.js          # Configurazione di Vite (es. alias di percorso)
+```
