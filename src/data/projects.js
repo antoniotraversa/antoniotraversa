@@ -11,20 +11,6 @@ export default [
       "Windows"
     ],
     "features": [],
-    "repository": "https://github.com/antoniotraversa/SystemDashboard"
-  },
-  {
-    "id": "proj_travyplay",
-    "title": "TravyPlay",
-    "description": "Media center in Flutter per gestire musica, video, IPTV e libri.",
-    "image": null,
-    "tags": [
-      "Dart",
-      "Flutter",
-      "Android",
-      "IOS"
-    ],
-    "features": [],
-    "repository": "https://github.com/antoniotraversa/TravyPlay"
+    "repository": ""
   }
 ];
