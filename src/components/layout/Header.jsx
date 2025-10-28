@@ -43,8 +43,7 @@ const Header = () => {
   const EnvelopeIcon = iconMap.envelope;
 
   return (
-    <header className="absolute top-0 left-0 w-full flex justify-between items-center px-6 py-4 z-50">
-      
+      <header className="absolute top-0 left-0 w-full flex flex-col sm:flex-row sm:justify-between items-center px-6 py-4 z-50 gap-4 sm:gap-0">      
       {/* === MODIFICA: Area Logo/Breadcrumb === */}
       <div className="flex items-center gap-2">
         {/* Link Base "AT" */}
@@ -65,13 +64,13 @@ const Header = () => {
           return (
             <React.Fragment key={path}>
               {/* Separatore */}
-              <span className="text-xl font-semibold text-[var(--color-text-muted)] font-sans hidden sm:block">
+              <span className="text-xl font-semibold text-(--color-text-muted) font-sans hidden sm:block">
                 |
               </span>
               {/* Link del segmento */}
               <Link
                 to={path}
-                className={`text-xl font-semibold text-[var(--color-text-muted)] font-sans hidden sm:block ${hoverColorClass} transition-colors`}
+                className={`text-xl font-semibold text-(--color-text-muted) font-sans hidden sm:block ${hoverColorClass} transition-colors`}
               >
                 {title}
               </Link>
@@ -83,7 +82,7 @@ const Header = () => {
 
 
       {/* Navigazione desktop (invariata) */}
-      <nav className={`hidden md:flex items-center gap-6 ${textColorClass} font-sans`}>
+<nav className={`flex items-center gap-6 ${textColorClass} font-sans`}>        
         {SunIcon && MoonIcon && (
           <button
             onClick={toggleTheme}
@@ -98,7 +97,7 @@ const Header = () => {
           </button>
         )}
         
-        <span className="w-px h-6 bg-[var(--color-text)]/30" aria-hidden="true"></span>
+        <span className="w-px h-6 bg-(--color-text)/30" aria-hidden="true"></span>
 
         {GithubIcon && (
           <a

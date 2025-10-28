@@ -1,8 +1,11 @@
+
 import React, { useRef, useState, useEffect, Suspense } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Plane, Html } from "@react-three/drei";
 import { useNavigate } from "react-router-dom";
 import * as THREE from "three";
+import PropTypes from "prop-types";
+
 
 // Easing sincronizzato con Framer Motion easeOut
 const easeOut = (t) => 1 - Math.pow(1 - t, 3); 
@@ -33,7 +36,7 @@ const InteractivePanel = ({ to, label, color, initialOffset = 3, ...props }) => 
   return (
     <Plane
       ref={meshRef}
-      args={[3, 1.5]}
+      args={[4, 2]}
       onClick={() => navigate(to)}
       onPointerOver={(e) => {
         e.stopPropagation();
@@ -76,6 +79,19 @@ const InteractivePanel = ({ to, label, color, initialOffset = 3, ...props }) => 
 
 const DataFolderScene = ({ theme }) => {
   const groupRef = useRef();
+  const [scale, setScale] = useState(1);
+
+  // Adatta la scala ai dispositivi
+  useEffect(() => {
+    const updateScale = () => {
+      if (window.innerWidth < 768) setScale(0.75); // mobile
+      else if (window.innerWidth < 1024) setScale(.9); // tablet
+      else setScale(1); // desktop
+    };
+    updateScale();
+    window.addEventListener("resize", updateScale);
+    return () => window.removeEventListener("resize", updateScale);
+  }, []);
 
   useFrame(({ clock, mouse }) => {
     if (!groupRef.current) return;
@@ -88,26 +104,25 @@ const DataFolderScene = ({ theme }) => {
   });
 
   return (
-    <group ref={groupRef}>
+    <group ref={groupRef} scale={scale}>
       <InteractivePanel
         to="/projects"
         label="Projects"
         color={theme.primary}
-        position={[-1.5, 0, 0]}
-        rotation={[0, 0.25, 0]}
-        initialOffset={3}
+        position={[-2, 0, 0]}
+        rotation={[0, 0.15, 0]}
       />
       <InteractivePanel
         to="/about"
         label="About"
         color={theme.secondary}
-        position={[1.5, 0, 0]}
-        rotation={[0, -0.25, 0]}
-        initialOffset={3}
+        position={[2, 0, 0]}
+        rotation={[0, -0.15, 0]}
       />
     </group>
   );
 };
+
 
 export default function HeroRight3DWrapper() {
   const [theme, setTheme] = useState({ primary: "#1F376E", secondary: "#4F5569" });
@@ -142,3 +157,18 @@ export default function HeroRight3DWrapper() {
     </Canvas>
   );
 }
+
+InteractivePanel.propTypes = {
+  to: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  color: PropTypes.string.isRequired,
+  position: PropTypes.arrayOf(PropTypes.number),
+  initialOffset: PropTypes.number,
+};
+
+DataFolderScene.propTypes = {
+  theme: PropTypes.shape({
+    primary: PropTypes.string.isRequired,
+    secondary: PropTypes.string.isRequired,
+  }).isRequired,
+};

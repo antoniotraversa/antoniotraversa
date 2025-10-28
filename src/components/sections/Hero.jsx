@@ -1,7 +1,7 @@
 // Hero.jsx
 import React, { useRef } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import HeroRight3DWrapper from "../canvas/HeroRight3D";
+import HeroRight3DWrapper from "../canvas/HeroRight3D.jsx";
 
 const Hero = () => {
   const containerRef = useRef(null);
@@ -25,13 +25,22 @@ const Hero = () => {
   };
 
   return (
-    <section className="w-full h-screen flex overflow-hidden perspective-[1400px]">
-      {/* Colonna sinistra: testi */}
-      <div
+    <section
+      className="w-full min-h-screen flex flex-col lg:flex-row justify-center items-center lg:items-stretch overflow-hidden perspective-[1400px] py-20 lg:py-0"
+    >
+      {/* === LATO SINISTRO (testo) === */}
+      <section
         ref={containerRef}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
-        className="w-1/2 flex flex-col justify-center items-start px-12 relative z-20"
+        aria-label="Contenuto principale animato"
+        tabIndex={0}
+        role="presentation"
+
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") e.preventDefault();
+        }}
+        className="w-full lg:w-1/2 flex flex-col justify-center items-start px-6 md:px-12 py-12"
       >
         <motion.div
           style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
@@ -43,7 +52,7 @@ const Hero = () => {
             initial={{ scale: 0.95, opacity: 0, y: 20 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             transition={{ duration: 1.5, ease: "easeOut" }}
-            className="text-7xl sm:text-8xl md:text-9xl lg:text-[10rem] font-extrabold tracking-tighter leading-none mb-8"
+            className="text-6xl sm:text-7xl md:text-8xl lg:text-[9rem] font-extrabold tracking-tighter leading-none mb-6"
             style={{
               transform: "translateZ(50px)",
               color: "white",
@@ -67,10 +76,10 @@ const Hero = () => {
             Esplora i miei progetti e scopri chi sono attraverso design e tecnologia.
           </motion.p>
         </motion.div>
-      </div>
+      </section>
 
-      {/* Colonna destra: pulsanti 3D */}
-      <div className="w-1/2 h-full relative z-10">
+      {/* === LATO DESTRO (pannelli 3D) === */}
+      <div className="w-full h-[400px] lg:h-auto lg:w-1/2 flex justify-center items-center relative z-10">
         <HeroRight3DWrapper />
       </div>
     </section>

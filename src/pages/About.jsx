@@ -3,6 +3,7 @@ import React from "react";
 import pp from '../assets/images/pp.png';
 import mh from "../assets/images/mh.png";
 import PageTransitionWrapper from "../components/animations/PageTransitionWrapper";
+// eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 
 const easing = [0.65, 0, 0.35, 1];
@@ -11,8 +12,7 @@ const TOTAL_DURATION = 1.5;
 export default function About() {
   return (
     <PageTransitionWrapper>
-      <section className="relative w-full h-screen flex flex-col lg:flex-row items-start lg:items-center justify-between px-8 lg:px-16 gap-8">
-        
+<section className="relative w-full min-h-screen flex flex-col lg:flex-row items-start lg:items-center justify-between px-8 lg:px-16 gap-8 py-24 lg:py-8">        
         {/* === Colonna sinistra: testo About Me + mh === */}
         <motion.div
           className="lg:w-1/2 flex flex-col justify-center z-20 max-w-xl"
@@ -21,7 +21,7 @@ export default function About() {
           transition={{ duration: TOTAL_DURATION, ease: easing }}
         >
           <motion.h1
-            className="text-4xl md:text-6xl font-bold mb-6 text-[var(--color-text)]"
+            className="text-4xl md:text-6xl font-bold mb-6 text-(--color-text)"
             initial={{ y: 40, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.1, duration: TOTAL_DURATION, ease: easing }}
@@ -30,7 +30,7 @@ export default function About() {
           </motion.h1>
 
           <motion.p
-            className="text-lg md:text-xl text-[var(--color-text-muted)] mb-4"
+            className="text-lg md:text-xl text-(--color-text-muted) mb-4"
             initial={{ y: 40, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.2, duration: TOTAL_DURATION, ease: easing }}
@@ -40,7 +40,7 @@ export default function About() {
           </motion.p>
 
           <motion.p
-            className="text-lg md:text-xl text-[var(--color-text-muted)] mb-4"
+            className="text-lg md:text-xl text-(--color-text-muted) mb-4"
             initial={{ y: 40, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.3, duration: TOTAL_DURATION, ease: easing }}
@@ -50,7 +50,7 @@ export default function About() {
           </motion.p>
 
           <motion.p
-            className="text-lg md:text-xl text-[var(--color-text-muted)] mb-6"
+            className="text-lg md:text-xl text-(--color-text-muted) mb-6"
             initial={{ y: 40, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.4, duration: TOTAL_DURATION, ease: easing }}
@@ -62,7 +62,7 @@ export default function About() {
           <motion.img
             src={mh}
             alt="mh"
-            className="w-full rounded-xl shadow-xl border border-[var(--color-text-muted)] mt-4"
+            className="w-full rounded-xl shadow-xl border border-(--color-text-muted) mt-4"
             initial={{ x: -50, opacity: 0, scale: 0.95 }}
             animate={{ x: 0, opacity: 1, scale: 1 }}
             transition={{ delay: 0.5, duration: TOTAL_DURATION, ease: easing }}
@@ -71,7 +71,7 @@ export default function About() {
 
         {/* === Colonna destra: immagine pp === */}
         <motion.div
-          className="lg:w-1/2 h-full flex justify-center items-center"
+          className="lg:w-1/2 w-full h-96 lg:h-full flex justify-center items-center" 
           initial={{ x: 200, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: TOTAL_DURATION, ease: easing }}
