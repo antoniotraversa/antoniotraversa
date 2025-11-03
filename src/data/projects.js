@@ -1,3 +1,8 @@
+import proj_dashboard_mainImg from '../assets/images/proj_dashboard/icon.png';
+import feat_1761671811246_featImg0 from '../assets/images/proj_dashboard/1.png';
+import feat_1761671936534_featImg1 from '../assets/images/proj_dashboard/2.png';
+import feat_1761672010051_featImg2 from '../assets/images/proj_dashboard/3.png';
+import feat_1761672150293_featImg3 from '../assets/images/proj_dashboard/4.png';
 import proj_systemdashboard_mainImg from '../assets/images/proj_systemdashboard/icon.png';
 import feat_1761663235217_featImg0 from '../assets/images/proj_systemdashboard/1.png';
 import feat_1761663255542_featImg1 from '../assets/images/proj_systemdashboard/2.png';
@@ -17,13 +22,44 @@ import feat_1761668359517_featImg6 from '../assets/images/proj_trmanager/13.png'
 import feat_1761668466104_featImg7 from '../assets/images/proj_trmanager/12.png';
 import feat_1761668558189_featImg8 from '../assets/images/proj_trmanager/11.png';
 import feat_1761668623609_featImg9 from '../assets/images/proj_trmanager/14.png';
-import proj_dashboard_mainImg from '../assets/images/proj_dashboard/icon.png';
-import feat_1761671811246_featImg0 from '../assets/images/proj_dashboard/1.png';
-import feat_1761671936534_featImg1 from '../assets/images/proj_dashboard/2.png';
-import feat_1761672010051_featImg2 from '../assets/images/proj_dashboard/3.png';
-import feat_1761672150293_featImg3 from '../assets/images/proj_dashboard/4.png';
 
 export default [
+  {
+    "id": "proj_dashboard",
+    "title": "dashboard",
+    "description": "Un'applicazione desktop ibrida (basata su Electron, React e Vite) progettata per la gestione centralizzata di progetti di sviluppo, l'integrazione Git e l'automazione dell'aggiornamento e del deploy di un sito web portfolio.",
+    "image": proj_dashboard_mainImg,
+    "tags": [
+      "React",
+      "Vite",
+      "JavaScript",
+      "CSS",
+      "Windows"
+    ],
+    "features": [
+      {
+        "title": "Dashboard Home",
+        "description": "Una pagina iniziale con link rapidi per aprire il sito live, il profilo GitHub e altri social media nel browser",
+        "imageUrl": feat_1761671811246_featImg0
+      },
+      {
+        "title": "Gestione Centralizzata dei Progetti",
+        "description": "Scansiona directory locali predefinite alla ricerca di file `.projdata` per aggregare tutti i tuoi progetti in un'unica dashboard.",
+        "imageUrl": feat_1761671936534_featImg1
+      },
+      {
+        "title": "Integrazione Git Avanzata",
+        "description": "Fornisce un'interfaccia grafica per le operazioni Git più comuni direttamente dalla workstation del progetto, tra cui:\n\n    Visualizzazione dello stato dei file (modificati, nuovi, eliminati).\n    Commit & Push (con autenticazione automatica).\n    Creazione di nuove branch e checkout.\n\n    Pull (Fetch + Merge) dal remote.\n    Creazione e push di Tag di versione.\n\n",
+        "imageUrl": feat_1761672010051_featImg2
+      },
+      {
+        "title": "Automazione del Portfolio e deploy",
+        "description": "Sincronizza i dati dei progetti (inclusi metadati, immagini principali e immagini delle feature) con un sito web portfolio separato.\nCopia automaticamente le immagini nelle cartelle `assets` del portfolio.\nGenera dinamicamente il file projects.js del portfolio, completo di import per le immagini.\nAvvia il processo di deploy del sito portfolio direttamente dall'app.",
+        "imageUrl": feat_1761672150293_featImg3
+      }
+    ],
+    "repository": "https://github.com/antoniotraversa/Dashboard"
+  },
   {
     "id": "proj_systemdashboard",
     "title": "SystemDashboard",
@@ -149,41 +185,5 @@ export default [
       }
     ],
     "repository": "https://github.com/antoniotraversa/TRManager"
-  },
-  {
-    "id": "proj_dashboard",
-    "title": "dashboard",
-    "description": "Un'applicazione desktop ibrida (basata su Electron, React e Vite) progettata per la gestione centralizzata di progetti di sviluppo, l'integrazione Git e l'automazione dell'aggiornamento e del deploy di un sito web portfolio.",
-    "image": proj_dashboard_mainImg,
-    "tags": [
-      "React",
-      "Vite",
-      "JavaScript",
-      "CSS",
-      "Windows"
-    ],
-    "features": [
-      {
-        "title": "Dashboard Home",
-        "description": "Una pagina iniziale con link rapidi per aprire il sito live, il profilo GitHub e altri social media nel browser",
-        "imageUrl": feat_1761671811246_featImg0
-      },
-      {
-        "title": "Gestione Centralizzata dei Progetti",
-        "description": "Scansiona directory locali predefinite alla ricerca di file `.projdata` per aggregare tutti i tuoi progetti in un'unica dashboard.",
-        "imageUrl": feat_1761671936534_featImg1
-      },
-      {
-        "title": "Integrazione Git Avanzata",
-        "description": "Fornisce un'interfaccia grafica per le operazioni Git più comuni direttamente dalla workstation del progetto, tra cui:\n\n    Visualizzazione dello stato dei file (modificati, nuovi, eliminati).\n    Commit & Push (con autenticazione automatica).\n    Creazione di nuove branch e checkout.\n\n    Pull (Fetch + Merge) dal remote.\n    Creazione e push di Tag di versione.\n\n",
-        "imageUrl": feat_1761672010051_featImg2
-      },
-      {
-        "title": "Automazione del Portfolio e deploy",
-        "description": "Sincronizza i dati dei progetti (inclusi metadati, immagini principali e immagini delle feature) con un sito web portfolio separato.\nCopia automaticamente le immagini nelle cartelle `assets` del portfolio.\nGenera dinamicamente il file projects.js del portfolio, completo di import per le immagini.\nAvvia il processo di deploy del sito portfolio direttamente dall'app.",
-        "imageUrl": feat_1761672150293_featImg3
-      }
-    ],
-    "repository": "https://github.com/antoniotraversa/Dashboard"
   }
 ];

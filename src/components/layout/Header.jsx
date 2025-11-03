@@ -113,7 +113,7 @@ const Header = () => {
 
         {InstagramIcon && (
           <a
-            href="https://instagram.com/antonio_traversa_"
+            href="https://instagram.com/antoniotraversadj"
             target="_blank"
             rel="noopener noreferrer"
             className={`${hoverColorClass} transition-colors`}
@@ -125,7 +125,7 @@ const Header = () => {
 
         {EnvelopeIcon && (
           <a
-            href="mailto:antonio.traversa.dev@gmail.com"
+            href="mailto:capa909@gmail.com"
             className={`${hoverColorClass} transition-colors`}
             aria-label="Invia una email"
           >
