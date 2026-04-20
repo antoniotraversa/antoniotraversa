@@ -1,0 +1,100 @@
+.section-hero {
+  padding-top: var(--space-4);
+  padding-inline: clamp(1rem, 4vw, 3rem);
+}
+
+.hero-profile-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) clamp(280px, 35vw, 440px);
+  gap: var(--space-5);
+  align-items: end;
+  width: 100%;
+  max-width: 1400px;
+  margin-inline: auto;
+  padding: var(--space-2) 0;
+}
+
+.hero-profile-content {
+  min-width: 0;
+  align-self: end;
+}
+
+.hero-title {
+  max-width: 16ch;
+}
+
+.hero-lead {
+  max-width: 56ch;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  text-decoration: none;
+  font: var(--font-ui);
+  border-radius: var(--radius-pill);
+  padding: 0.75rem 1.2rem;
+  border: 1px solid transparent;
+  transition:
+    transform var(--motion-fast),
+    background-color var(--motion-fast),
+    color var(--motion-fast),
+    border-color var(--motion-fast);
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn-primary {
+  color: #fff;
+  background: linear-gradient(132deg, var(--color-brand), color-mix(in srgb, var(--color-brand) 58%, var(--color-accent)));
+  box-shadow: 0 14px 30px -24px color-mix(in srgb, var(--color-brand) 78%, transparent);
+}
+
+.btn-primary:hover {
+  background: linear-gradient(132deg, color-mix(in srgb, var(--color-brand) 86%, #000), color-mix(in srgb, var(--color-accent) 68%, var(--color-brand)));
+}
+
+.btn-ghost {
+  color: var(--color-text-strong);
+  border-color: color-mix(in srgb, var(--color-text-muted) 30%, transparent);
+  background: color-mix(in srgb, var(--color-bg-page) 50%, transparent);
+}
+
+.btn-ghost:hover {
+  background: var(--color-bg-subtle);
+  border-color: color-mix(in srgb, var(--color-brand) 35%, var(--color-border-soft));
+}
+
+@media (max-width: 980px) {
+  .hero-profile-card {
+    grid-template-columns: 1fr;
+    align-items: stretch;
+    padding: 0;
+  }
+
+  .hero-profile-content {
+    align-self: auto;
+  }
+}
+
+@media (max-width: 620px) {
+  .hero-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}

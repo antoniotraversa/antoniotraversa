@@ -1,0 +1,73 @@
+.ProfileCard-Container{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    width: min(460px, 100%);
+    min-height: 560px;
+    padding: 1.25rem;
+    
+    overflow: hidden;
+    background-image: url('/images/pp.png');
+    background-size: cover;
+    background-position: center;
+    
+}
+
+.ProfileCard-Transparent{
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        180deg,
+        rgba(8, 12, 22, 0.12) 40%,
+        rgba(8, 12, 22, 0.88) 100%
+    );
+}
+
+.ProfileCard-Info{
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.12rem;
+    width: 100%;
+    margin-top: auto;
+    margin-bottom: 0.3rem;
+    padding: 0.65rem 0.85rem;
+    border-radius: 0.8rem;
+    background: rgba(8, 12, 22, 0.48);
+    backdrop-filter: blur(4px);
+}
+
+
+
+.ProfileCard-Name{
+    margin: 0;
+    font-size: clamp(1.35rem, 2.2vw, 1.8rem);
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.1;
+    text-shadow: 0 3px 14px rgba(0, 0, 0, 0.72);
+}
+
+.ProfileCard-Title{
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.98);
+    letter-spacing: 0.02em;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.62);
+}
+
+
+
+@media (max-width: 700px){
+    .ProfileCard-Container{
+        min-height: 450px;
+        border-radius: 1.4rem;
+    }
+
+  
+}

@@ -1,0 +1,35 @@
+.ProjectsTypeSelector-Container {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--space-2);
+}
+
+.ProjectsTypeSelector-Button {
+	border: 1px solid color-mix(in srgb, var(--color-border-soft) 76%, transparent);
+	background: color-mix(in srgb, var(--color-bg-surface) 84%, transparent);
+	color: var(--color-text-strong);
+	border-radius: var(--radius-pill);
+	font: var(--font-ui);
+	padding: 0.5rem 0.95rem;
+	cursor: pointer;
+	transition:
+		transform var(--motion-fast),
+		border-color var(--motion-fast),
+		background-color var(--motion-fast);
+}
+
+.ProjectsTypeSelector-Button:hover {
+	transform: translateY(-1px);
+	border-color: color-mix(in srgb, var(--color-brand) 40%, var(--color-border-soft));
+	background: var(--color-bg-subtle);
+}
+
+.ProjectsTypeSelector-ButtonActive {
+	border-color: color-mix(in srgb, var(--color-brand) 60%, var(--color-border-soft));
+	background: color-mix(in srgb, var(--color-brand) 12%, var(--color-bg-surface));
+}
+
+.ProjectsTypeSelector-Button:focus-visible {
+	outline: 2px solid color-mix(in srgb, var(--color-brand) 65%, white);
+	outline-offset: 2px;
+}
